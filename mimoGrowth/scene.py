@@ -10,6 +10,7 @@ Includes:
 import os
 import re
 import copy
+import uuid
 import numpy as np
 import xml.etree.ElementTree as ET
 
@@ -90,9 +91,11 @@ def create_growth_scene(growth_params: dict, path_scene: str,
         gear = growth_params["motors"][name]["gear"]
         motor.attrib["gear"] = str(gear)
 
-    def temp_path(path):
-        return path.replace(".xml", "_temp.xml")
 
+    def temp_path(path):
+      
+      uid = uuid.uuid4().hex[:8]
+      return path.replace(".xml", f"_temp_{uid}.xml")
     # Save the new model and meta files.
     tree_model.write(temp_path(path_model))
     tree_meta.write(temp_path(path_meta))
